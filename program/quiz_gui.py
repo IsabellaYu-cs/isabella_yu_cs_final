@@ -331,8 +331,8 @@ class QuizGUI:
         ttk.Label(details_frame, text=f"Correct answer: {question['answer']}",
                  font=("Arial", 11)).grid(row=1, column=0, sticky=tk.W)
 
-        # Explanation
-        if not is_correct and question["explanation"]:
+        # Explanation (show for both correct and incorrect answers)
+        if question["explanation"]:
             exp_frame = ttk.Frame(self.main_frame)
             exp_frame.grid(row=3, column=0, sticky=tk.W+tk.E, pady=10)
 

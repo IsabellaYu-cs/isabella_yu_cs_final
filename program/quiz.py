@@ -266,8 +266,10 @@ class Quiz:
             print(f"\n*** Correct! *** (Time: {elapsed_time:.1f} seconds)\n")
         else:
             print(f"\n*** Incorrect! The correct answer is {question['answer']}. *** (Time: {elapsed_time:.1f} seconds)\n")
-            if question["explanation"]:
-                print(f"Explanation: {question['explanation']}\n")
+
+        # Show explanation for both correct and incorrect answers
+        if question["explanation"]:
+            print(f"Explanation: {question['explanation']}\n")
 
     def run_quiz(self):
         """Run the quiz for the current topic."""
