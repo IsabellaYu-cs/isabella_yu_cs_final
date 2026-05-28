@@ -386,3 +386,58 @@ Claude modified the `show_quiz_screen` method to:
 
 ### My Next Step
 The GUI now hides options until the timer starts. Both CLI and GUI versions are complete and synced to the Obsidian vault and GitHub repository.
+
+---
+
+## Entry 9
+
+### Date
+2026-05-28
+
+### AI Tool Used
+Claude Code (Anthropic CLI)
+
+### What I Asked AI
+I asked Claude to implement the two "nice to have" features from the PRD: break mode and performance charts.
+
+### Why I Asked
+These features were listed as optional in the development plan and would enhance the user experience - break mode provides encouragement during study sessions, and charts give visual feedback on performance.
+
+### What AI Gave Me
+Claude implemented both features:
+
+**Break Mode:**
+1. Added a "Break" button in the top right corner of the GUI (visible after login)
+2. Created a popup window with random motivational messages and economics-themed jokes
+3. Messages include encouragement and humor related to AP Microeconomics concepts
+
+**Performance Chart:**
+1. Installed matplotlib for chart rendering
+2. Added bar chart showing accuracy percentage for each topic practiced
+3. Color-coded bars: green (≥80%), yellow (≥60%), red (<60%)
+4. Chart available on both Summary and Round Result screens
+5. Embedded matplotlib figure in tkinter window
+
+### What I Used
+- `matplotlib` library for chart rendering
+- `random` module for selecting motivational messages
+- `tkinter.Toplevel` for popup windows
+- `FigureCanvasTkAgg` for embedding matplotlib in tkinter
+
+### What I Changed or Rejected
+- Break button hidden on login screen, shown after user starts quiz
+- Messages are a mix of motivational quotes and economics puns
+- Chart uses color coding to quickly identify strong/weak topics
+- Chart window is a separate popup that can be closed independently
+
+### What I Still Do Not Fully Understand
+- How to make the chart interactive (hover for details)
+- How to save charts as image files
+
+### My Next Step
+All PRD features are now complete:
+- ✅ Must Have (1-8): All implemented
+- ✅ Should Complete (8): Weak topic analysis
+- ✅ Nice to Have (9): Break mode and performance charts
+
+The project is fully complete and ready for submission!
