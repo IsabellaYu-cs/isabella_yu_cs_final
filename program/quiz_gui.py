@@ -556,10 +556,17 @@ class QuizGUI:
 
         history_text.config(state=tk.DISABLED)
 
-        # Back button
-        back_btn = ttk.Button(self.main_frame, text="Back to Topics",
+        # Buttons
+        button_frame = ttk.Frame(self.main_frame)
+        button_frame.grid(row=2, column=0, pady=20)
+
+        summary_btn = ttk.Button(button_frame, text="View Summary",
+                               command=self.show_summary)
+        summary_btn.grid(row=0, column=0, padx=10)
+
+        back_btn = ttk.Button(button_frame, text="Back to Topics",
                             command=self.show_topic_selection)
-        back_btn.grid(row=2, column=0, pady=20)
+        back_btn.grid(row=0, column=1, padx=10)
 
     def load_progress(self):
         """Load user progress from file."""
