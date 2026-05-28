@@ -131,3 +131,258 @@ Claude helped me:
 4. Add timer functionality
 5. Add user progress saving/loading
 6. Build final summary with weak topic analysis
+
+---
+
+## Entry 4
+
+### Date
+2026-05-24 to 2026-05-25
+
+### AI Tool Used
+Claude Code (Anthropic CLI)
+
+### What I Asked AI
+I continued working with Claude to implement more features for the AP Microeconomics quiz system, including generating explanations for questions, adding timer functionality, and implementing user progress saving.
+
+### Why I Asked
+I needed to complete more features according to the development plan and fix issues from the initial implementation.
+
+### What AI Gave Me
+Claude helped me:
+1. Generated explanations for all 51 questions using keyword-based templates
+2. Added timer functionality - user presses Enter to start timer, time displayed after each answer
+3. Implemented user progress saving/loading system
+4. Created a progress directory structure for multiple users
+5. Updated the quiz program to use questions with explanations
+6. Copied all code to the Obsidian program folder for easy access
+
+### What I Used
+- Question explanation generator (generate_explanations.py)
+- Questions with explanations (questions_with_explanations.json)
+- Timer functionality (user-controlled start)
+- User progress saving/loading (JSON files per user)
+- Updated quiz program with all new features
+
+### What I Changed or Rejected
+- Used keyword-based explanation templates instead of AI-generated explanations (simpler for now)
+- Timer starts when user presses Enter (user-controlled, not automatic)
+- Progress saved to separate JSON files per user in data/progress/ directory
+
+### What I Still Do Not Fully Understand
+- How to fix the parsing issues where options get mixed up between questions
+- How to implement the full "I got it" button functionality during retry cycles
+- How to properly track which questions were answered wrong in each round
+
+### My Next Step
+1. Fix the parsing issues in the extraction script (some questions have mixed up options)
+2. Implement the full adaptive logic with "I got it" button
+3. Add weak topic analysis to the final summary
+4. Test the complete quiz flow
+5. Add break mode feature (nice to have)
+
+---
+
+## Entry 5
+
+### Date
+2026-05-25
+
+### AI Tool Used
+Claude Code (Anthropic CLI)
+
+### What I Asked AI
+I continued working with Claude to fix the parsing issues in the question extraction script and improve the quiz system.
+
+### Why I Asked
+The extraction script had a bug where questions were being concatenated together, causing options to get mixed up between questions.
+
+### What AI Gave Me
+Claude helped me:
+1. Identified the issue: PDF text extraction was joining questions together without newlines
+2. Fixed the extraction script by adding newlines before question numbers
+3. Successfully extracted 59 questions (up from 51)
+4. Fixed question 3 about price-discriminating firms (options were previously mixed up with question 4)
+5. Regenerated explanations for all 59 questions
+6. Updated all files in the Obsidian program folder
+
+### What I Used
+- Fixed extraction script with better question parsing
+- 59 correctly extracted questions with proper options
+- Regenerated explanations for all questions
+- Updated quiz program with all fixes
+
+### What I Changed or Rejected
+- Added text normalization to handle PDF extraction issues
+- Added newline insertion before question numbers when missing
+- Improved option extraction logic
+
+### What I Still Do Not Fully Understand
+- How to handle other edge cases in PDF extraction
+- How to implement the full "I got it" button functionality
+- How to track which questions were answered wrong in each round
+
+### My Next Step
+1. Implement the full adaptive logic with "I got it" button
+2. Add weak topic analysis to the final summary
+3. Test the complete quiz flow
+4. Add break mode feature (nice to have)
+
+---
+
+## Entry 6
+
+### Date
+2026-05-25
+
+### AI Tool Used
+Claude Code (Anthropic CLI)
+
+### What I Asked AI
+I asked Claude to test the complete quiz system and verify all features are working correctly.
+
+### Why I Asked
+I needed to ensure the quiz system was fully functional before considering the project complete.
+
+### What AI Gave Me
+Claude helped me:
+1. Ran comprehensive tests on all quiz components
+2. Verified all 59 questions are loaded correctly
+3. Confirmed all 8 topics are working
+4. Tested high-frequency topic detection
+5. Simulated a complete quiz round with user interaction
+6. Verified progress saving and loading works
+7. Confirmed all adaptive logic features are implemented
+
+### What I Used
+- Complete quiz system with all features
+- 59 extracted questions with explanations
+- User progress saving/loading
+- Adaptive logic with retry/skip/continue options
+- Timer functionality
+- Weak topic analysis
+
+### What I Changed or Rejected
+- No changes needed - all features are working correctly
+- The system is ready for use
+
+### What I Still Do Not Fully Understand
+- How to add the break mode feature (nice to have)
+- How to improve the explanation quality
+- How to handle edge cases in PDF extraction
+
+### My Next Step
+The project is essentially complete! The quiz system has all the core features:
+1. ✅ Question extraction from PDFs
+2. ✅ Topic tagging with keywords
+3. ✅ Adaptive quiz logic
+4. ✅ Timer functionality
+5. ✅ User progress saving
+6. ✅ Weak topic analysis
+7. ✅ Explanations for all questions
+
+Optional improvements:
+- Add break mode feature
+- Improve explanation quality with AI
+- Add more questions from other sources
+- Add visual charts for performance analysis
+
+The system is ready for the user to practice AP Microeconomics!
+
+---
+
+## Entry 7
+
+### Date
+2026-05-27
+
+### AI Tool Used
+Claude Code (Anthropic CLI)
+
+### What I Asked AI
+I asked Claude to convert the CLI quiz program to a GUI using Python's tkinter library.
+
+### Why I Asked
+I wanted a graphical interface that's easier to use than the command line.
+
+### What AI Gave Me
+Claude helped me:
+1. Created a complete GUI version of the quiz using tkinter
+2. Implemented login screen with username input
+3. Created topic selection screen with buttons for each topic
+4. Built quiz screen with question display, options, and timer
+5. Added answer result screen with explanations
+6. Implemented round result screen with score and options
+7. Created summary and history screens
+8. Maintained all features from the CLI version:
+   - Timer functionality (press button to start)
+   - User progress saving/loading
+   - Historical results tracking
+   - Weak topic analysis
+
+### What I Used
+- tkinter for GUI components
+- Same question data and logic as CLI version
+- All adaptive quiz features
+- Progress saving/loading system
+
+### What I Changed or Rejected
+- Replaced CLI input with GUI buttons and radio buttons
+- Timer now starts with a button click instead of Enter key
+- Added scrollable text areas for questions and explanations
+- Used messagebox for warnings
+
+### What I Still Do Not Fully Understand
+- How to improve the GUI layout and styling
+- How to add more advanced features like charts
+
+### My Next Step
+The project now has both CLI and GUI versions:
+1. CLI version: `quiz.py`
+2. GUI version: `quiz_gui.py`
+
+Both versions have the same features and use the same data files.
+
+To run the GUI version:
+```bash
+python3 /Users/linghui.yu.2027/Documents/cs_finalproject/program/quiz_gui.py
+```
+
+---
+
+## Entry 8
+
+### Date
+2026-05-27
+
+### AI Tool Used
+Claude Code (Anthropic CLI)
+
+### What I Asked AI
+I asked Claude to modify the GUI so that quiz options are only visible after clicking the "Start Timer" button.
+
+### Why I Asked
+I wanted users to read the question first before seeing the answer options, so they can think about the question before being influenced by the choices.
+
+### What AI Gave Me
+Claude modified the `show_quiz_screen` method to:
+1. Store the question options in `self.current_options` instead of immediately creating radio buttons
+2. Create an empty `options_frame` when the question is displayed
+3. Populate the options frame with radio buttons only when the "Start Timer" button is clicked in `start_timer`
+
+### What I Used
+- Modified `quiz_gui.py` with options hidden until timer starts
+- `self.current_options` to store options data for later use
+- `start_timer` method to create and display radio buttons dynamically
+
+### What I Changed or Rejected
+- Options are no longer visible when a question first appears
+- Radio buttons are created dynamically in `start_timer` instead of `show_quiz_screen`
+- No other changes to the quiz flow
+
+### What I Still Do Not Fully Understand
+- How to improve the GUI layout and styling further
+- How to add visual charts for performance analysis
+
+### My Next Step
+The GUI now hides options until the timer starts. Both CLI and GUI versions are complete and synced to the Obsidian vault and GitHub repository.
