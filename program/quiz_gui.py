@@ -4,8 +4,32 @@ import json
 import os
 import time
 import threading
+import random
+import matplotlib
+matplotlib.use('TkAgg')
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class QuizGUI:
+    # Motivational messages and jokes for break mode
+    BREAK_MESSAGES = [
+        "You're doing great! Keep it up!",
+        "Remember: every question you practice is one step closer to a 5!",
+        "Take a deep breath. You've got this!",
+        "Fun fact: The law of demand says the more you study, the better you score!",
+        "Why did the economist break up with the mathematician? They had too many problems!",
+        "What's a pirate's favorite subject? Micro-ARRR-conomics!",
+        "You're like a perfectly competitive firm - efficient and productive!",
+        "Keep going! Your marginal utility of studying is still positive!",
+        "Remember: opportunity cost of not studying is your AP score!",
+        "You're building human capital right now!",
+        "Even Adam Smith would be proud of your dedication!",
+        "Don't be a free rider - keep studying!",
+        "Your effort is like a positive externality - it benefits everyone around you!",
+        "Time to take a short break and come back refreshed!",
+        "You're on the production possibilities frontier of studying!"
+    ]
+
     def __init__(self, root):
         self.root = root
         self.root.title("AP Microeconomics Quiz System")
@@ -57,10 +81,105 @@ class QuizGUI:
         self.root.rowconfigure(0, weight=1)
         self.main_frame.columnconfigure(0, weight=1)
 
+        # Break button (top right corner, hidden initially)
+        self.break_btn = ttk.Button(self.root, text="Break",
+                                   command=self.show_break_mode)
+        self.break_btn.place(x=730, y=10, width=60, height=30)
+        self.break_btn.place_forget()  # Hide initially
+
     def clear_screen(self):
         """Clear all widgets from main frame."""
         for widget in self.main_frame.winfo_children():
             widget.destroy()
+
+    def show_break_mode(self):
+        """Show a break mode window with motivational message."""
+        break_window = tk.Toplevel(self.root)
+        break_window.title("Break Time!")
+        break_window.geometry("400x250")
+        break_window.transient(self.root)
+        break_window.grab_set()
+
+        # Center the window
+        break_window.update_idletasks()
+        x = (break_window.winfo_screenwidth() - 400) // 2
+        y = (break_window.winfo_screenheight() - 250) // 2
+        break_window.geometry(f"400x250+{x}+{y}")
+
+        # Title
+        ttk.Label(break_window, text="Break Time!",
+                 font=("Arial", 18, "bold")).pack(pady=20)
+
+        # Random message
+        message = random.choice(self.BREAK_MESSAGES)
+        msg_label = ttk.Label(break_window, text=message,
+                            font=("Arial", 12), wraplength=350, justify="center")
+        msg_label.pack(pady=20)
+
+        # Close button
+        ttk.Button(break_window, text="Back to Quiz",
+                  command=break_window.destroy).pack(pady=20)
+
+    def show_chart(self, chart_data):
+        """Show performance chart in a new window."""
+        if not chart_data:
+            messagebox.showinfo("No Data", "No performance data available to display.")
+            return
+
+        chart_window = tk.Toplevel(self.root)
+        chart_window.title("Performance Chart")
+        chart_window.geometry("700x500")
+        chart_window.transient(self.root)
+
+        # Center the window
+        chart_window.update_idletasks()
+        x = (chart_window.winfo_screenwidth() - 700) // 2
+        y = (chart_window.winfo_screenheight() - 500) // 2
+        chart_window.geometry(f"700x500+{x}+{y}")
+
+        # Create matplotlib figure
+        fig = Figure(figsize=(7, 5), dpi=100)
+        ax = fig.add_subplot(111)
+
+        # Prepare data
+        topics = list(chart_data.keys())
+        accuracies = list(chart_data.values())
+
+        # Shorten topic names for display
+        short_topics = []
+        for t in topics:
+            if len(t) > 15:
+                short_topics.append(t[:12] + "...")
+            else:
+                short_topics.append(t)
+
+        # Create bar chart
+        colors = ['#4CAF50' if a >= 80 else '#FFC107' if a >= 60 else '#F44336' for a in accuracies]
+        bars = ax.bar(short_topics, accuracies, color=colors)
+
+        # Add value labels on bars
+        for bar, acc in zip(bars, accuracies):
+            ax.text(bar.get_x() + bar.get_width() / 2., bar.get_height() + 1,
+                   f'{acc:.1f}%', ha='center', va='bottom', fontsize=9)
+
+        ax.set_ylabel('Accuracy (%)')
+        ax.set_title(f'{self.username}\'s Performance by Topic')
+        ax.set_ylim(0, 110)
+        ax.axhline(y=100, color='gray', linestyle='--', alpha=0.3)
+
+        # Rotate x labels for better readability
+        ax.tick_params(axis='x', rotation=30)
+
+        fig.tight_layout()
+
+        # Embed in tkinter
+        canvas = FigureCanvasTkAgg(fig, master=chart_window)
+        canvas.draw()
+        canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+        # Close button
+        ttk.Button(chart_window, text="Close",
+                  command=chart_window.destroy).pack(pady=10)
 
     def show_login_screen(self):
         """Show login screen."""
@@ -95,6 +214,9 @@ class QuizGUI:
 
         # Load progress
         self.load_progress()
+
+        # Show break button after login
+        self.break_btn.place(x=730, y=10, width=60, height=30)
 
         # Show topic selection
         self.show_topic_selection()
@@ -432,14 +554,25 @@ class QuizGUI:
                                 command=self.show_topic_selection)
             skip_btn.grid(row=0, column=1, padx=10)
 
-        # Summary and history buttons
+        # Summary, chart, and history buttons
         summary_btn = ttk.Button(self.main_frame, text="View Summary",
                                command=self.show_summary)
         summary_btn.grid(row=4, column=0, pady=10)
 
+        # Chart button with current data
+        chart_data = {}
+        for t, stats in self.topic_stats.items():
+            if stats["total"] > 0:
+                chart_data[t] = (stats["correct"] / stats["total"]) * 100
+
+        if chart_data:
+            chart_btn = ttk.Button(self.main_frame, text="View Performance Chart",
+                                  command=lambda: self.show_chart(chart_data))
+            chart_btn.grid(row=5, column=0, pady=5)
+
         history_btn = ttk.Button(self.main_frame, text="View History",
                                command=self.show_history)
-        history_btn.grid(row=5, column=0, pady=5)
+        history_btn.grid(row=6, column=0, pady=5)
 
     def continue_topic(self):
         """Continue with the same topic."""
@@ -462,7 +595,7 @@ class QuizGUI:
 
         # Create text widget for summary
         summary_text = scrolledtext.ScrolledText(self.main_frame, wrap=tk.WORD,
-                                                font=("Arial", 11), height=20)
+                                                font=("Arial", 11), height=15)
         summary_text.grid(row=1, column=0, sticky=tk.W+tk.E, pady=10)
 
         # Generate summary
@@ -470,6 +603,7 @@ class QuizGUI:
         total_correct = 0
         total_questions = 0
         weak_topics = []
+        chart_data = {}  # For chart: {topic: accuracy}
 
         for topic, stats in self.topic_stats.items():
             correct = stats["correct"]
@@ -492,6 +626,9 @@ class QuizGUI:
 
             summary += "\n"
 
+            # Store for chart
+            chart_data[topic] = accuracy
+
         if total_questions > 0:
             overall_accuracy = total_correct / total_questions * 100
             summary += f"Overall: {total_correct}/{total_questions} ({overall_accuracy:.1f}%)\n"
@@ -506,10 +643,18 @@ class QuizGUI:
         summary_text.insert(tk.END, summary)
         summary_text.config(state=tk.DISABLED)
 
-        # Back button
-        back_btn = ttk.Button(self.main_frame, text="Back to Topics",
+        # Buttons
+        button_frame = ttk.Frame(self.main_frame)
+        button_frame.grid(row=2, column=0, pady=10)
+
+        if chart_data:
+            chart_btn = ttk.Button(button_frame, text="View Performance Chart",
+                                  command=lambda: self.show_chart(chart_data))
+            chart_btn.grid(row=0, column=0, padx=10)
+
+        back_btn = ttk.Button(button_frame, text="Back to Topics",
                             command=self.show_topic_selection)
-        back_btn.grid(row=2, column=0, pady=20)
+        back_btn.grid(row=0, column=1, padx=10)
 
     def show_history(self):
         """Show quiz history."""
