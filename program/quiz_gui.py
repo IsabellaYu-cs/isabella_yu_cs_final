@@ -212,16 +212,13 @@ class QuizGUI:
         question_text.insert(tk.END, question["question"])
         question_text.config(state=tk.DISABLED)
 
-        # Options
-        options_frame = ttk.Frame(self.main_frame)
-        options_frame.grid(row=2, column=0, sticky=tk.W+tk.E, pady=10)
-
+        # Store options for later (hidden until timer starts)
+        self.current_options = question["options"]
         self.selected_answer = tk.StringVar()
 
-        for i, (letter, text) in enumerate(question["options"].items()):
-            rb = ttk.Radiobutton(options_frame, text=f"{letter}. {text}",
-                               variable=self.selected_answer, value=letter)
-            rb.grid(row=i, column=0, sticky=tk.W, pady=2)
+        # Options frame (initially empty - will be populated when timer starts)
+        self.options_frame = ttk.Frame(self.main_frame)
+        self.options_frame.grid(row=2, column=0, sticky=tk.W+tk.E, pady=10)
 
         # Buttons
         button_frame = ttk.Frame(self.main_frame)
@@ -243,10 +240,17 @@ class QuizGUI:
         skip_btn.grid(row=0, column=2, padx=10)
 
     def start_timer(self):
-        """Start the timer."""
+        """Start the timer and show options."""
         self.timer_start = time.time()
         self.start_timer_btn.config(state=tk.DISABLED)
         self.submit_btn.config(state=tk.NORMAL)
+
+        # Show options now that timer has started
+        for i, (letter, text) in enumerate(self.current_options.items()):
+            rb = ttk.Radiobutton(self.options_frame, text=f"{letter}. {text}",
+                               variable=self.selected_answer, value=letter)
+            rb.grid(row=i, column=0, sticky=tk.W, pady=2)
+
         self.update_timer()
 
     def update_timer(self):
