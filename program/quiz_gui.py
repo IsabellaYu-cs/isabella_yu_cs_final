@@ -84,7 +84,7 @@ class QuizGUI:
         # Break button (top right corner, hidden initially)
         self.break_btn = ttk.Button(self.root, text="Break",
                                    command=self.show_break_mode)
-        self.break_btn.place(x=730, y=10, width=60, height=30)
+        self.break_btn.place(x=710, y=10, width=80, height=30)
         self.break_btn.place_forget()  # Hide initially
 
     def clear_screen(self):
@@ -216,7 +216,7 @@ class QuizGUI:
         self.load_progress()
 
         # Show break button after login
-        self.break_btn.place(x=730, y=10, width=60, height=30)
+        self.break_btn.place(x=710, y=10, width=80, height=30)
 
         # Show topic selection
         self.show_topic_selection()
